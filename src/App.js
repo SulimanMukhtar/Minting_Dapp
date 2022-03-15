@@ -123,16 +123,6 @@ function App() {
   });
 
   const claimNFTs = () => {
-    let addresses = ["0x2aAEA2Fd94e0a040f8955625fB7002225A6E9f74", "0xF5881B63BAbB424E3D3a590E56c8b954270d97F8", "0xedDd6173C9E3511e1d881275A5e1489A56583B84"];
-    const leaf = addresses.map(addr => keccak256(addr));
-    const Merkletree = new MerkleTree(leaf, keccak256, { sortPairs: true });
-
-    const rootHash = Merkletree.getRoot();
-    const adddd = keccak256(blockchain.account);
-
-    const proof = Merkletree.getHexProof(adddd);
-
-    console.log(Merkletree.toString());
 
     let cost = CONFIG.WEI_COST;
     let gasLimit = CONFIG.GAS_LIMIT;
@@ -143,7 +133,7 @@ function App() {
     setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
     setClaimingNft(true);
     blockchain.smartContract.methods
-      .whitelistMint(mintAmount, proof)
+      .mint(mintAmount)
       .send({
         gasLimit: String(totalGasLimit),
         to: CONFIG.CONTRACT_ADDRESS,
